@@ -25,6 +25,17 @@
 
 Priorities are NOT stored. They are evaluated fresh each cycle.
 
+### Work Package Guidelines
+
+Work packages must be **atomic** - small and self-contained:
+
+- **Single deliverable** - One clear outcome per package
+- **Completable in one session** - If it takes multiple sessions, split it
+- **No hidden dependencies** - All prerequisites explicit
+- **Verifiable** - Clear criteria for "done"
+
+When a package feels too large, split it. When packages are too granular, merge them.
+
 ---
 
 ## Work Packages
