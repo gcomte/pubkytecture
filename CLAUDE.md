@@ -2,6 +2,9 @@
 
 Visual "glass-box" simulator for the Pubky ecosystem. Shows data flow through distributed architecture in real-time with actual network operations.
 
+**Design:** Dark mode only.
+**Testing:** All tests must mock network calls - never write to live Pubky systems.
+
 ## Tech Stack
 
 - **Build:** Vite + React + TypeScript
@@ -39,3 +42,7 @@ Check these when working on specific areas:
 | File | When to check |
 |------|---------------|
 | `.claude/docs/architectural_patterns.md` | Visualization design, state management, testing strategy |
+| `.claude/skills/test-driven-development/` | Implementing state machine or flow logic (TDD required) |
+| `.claude/skills/webapp-testing/` | Writing Playwright E2E tests |
+| `.claude/skills/artifacts-builder/` | Building React components, dark mode styling |
+| `.claude/skills/software-architecture/` | Architectural decisions, SOLID principles |

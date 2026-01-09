@@ -54,10 +54,15 @@ Step 3: { keypair: ..., recoveryFile: ..., dhtRecord: ... }
 
 ## Testing Strategy
 
+### Critical Constraint: No Live System Writes
+**All tests must mock network calls. Never write data to the live Pubky infrastructure.**
+
+The app connects to real public systems at runtime to demonstrate actual behavior. Tests must intercept/mock all network operations to avoid polluting the live DHT with test data.
+
 ### Hybrid TDD
 - **Pure logic (TDD):** State machine, step definitions - write tests first
-- **Integration (tests after):** Pubky wrapper - explore API behavior first, then lock down with tests
+- **Integration (tests after):** Pubky wrapper - explore API behavior first, then lock down with mocked tests
 - **UI (tests after):** Visual components - build first, add critical interaction tests
-- **E2E (tests after):** Full flow validation with Playwright
+- **E2E (tests after):** Full flow validation with Playwright (network calls mocked via route interception)
 
 **Rationale:** TDD works best when interfaces are known. External APIs and visual components benefit from exploration before testing.
