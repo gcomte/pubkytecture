@@ -48,6 +48,7 @@ When a package feels too large, split it. When packages are too granular, merge 
 | Install all dependencies | pending | pubky, react-flow, tailwind, framer-motion, vitest, playwright |
 | Configure Tailwind CSS (dark mode only) | pending | |
 | Configure Vitest + React Testing Library | pending | |
+| Set up GitHub Actions CI | pending | Lint, type-check, unit tests, build |
 
 ### Core State Machine (TDD Required)
 
