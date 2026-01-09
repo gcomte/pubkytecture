@@ -59,7 +59,6 @@ When a package feels too large, split it. When packages are too granular, merge 
 
 | Package | Status | Notes |
 |---------|--------|-------|
-| Implement Identity Birth step definitions | pending | |
 | Create Pubky wrapper (lib/pubky.ts) | pending | Explore API, then add integration tests |
 
 ### UI Components
@@ -96,6 +95,7 @@ When a package feels too large, split it. When packages are too granular, merge 
 | Implement useSimulation hook | done | State machine with refs for async operations, all tests passing |
 | Explore Pubky v0.6.0-rc.7 API | done | Documented API flow in src/lib/pubky-exploration.md with Identity Birth example |
 | Write Identity Birth step tests | done | TDD test suite (18 test cases) covering all 4 steps, data accumulation, errors |
+| Implement Identity Birth step definitions | done | Created 4-step flow (keypair → recovery → signup → verify), all 18 tests passing |
 
 ---
 
