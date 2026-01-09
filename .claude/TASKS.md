@@ -16,12 +16,13 @@
 ### After Completing Work
 
 1. **Mark completed** - Move to Completed section with brief notes on what was done/learned
-2. **Review all packages** - For each remaining package, ask:
+2. **Update README.md** - Keep it compact and tidy, reflecting current project state
+3. **Review all packages** - For each remaining package, ask:
    - Does this package still make sense?
    - Should it be split, merged, or reworded?
    - Should it be removed?
-3. **Discover new packages** - Add any work discovered during implementation
-4. **Return to "Before Starting Work"** - Re-evaluate priorities fresh and pick next
+4. **Discover new packages** - Add any work discovered during implementation
+5. **Return to "Before Starting Work"** - Re-evaluate priorities fresh and pick next
 
 Priorities are NOT stored. They are evaluated fresh each cycle.
 
