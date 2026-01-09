@@ -54,8 +54,6 @@ When a package feels too large, split it. When packages are too granular, merge 
 
 | Package | Status | Notes |
 |---------|--------|-------|
-| Write useSimulation tests | pending | Test-first |
-| Implement useSimulation hook | pending | Make tests pass |
 
 ### Identity Birth Flow (TDD Required for Logic)
 
@@ -95,6 +93,8 @@ When a package feels too large, split it. When packages are too granular, merge 
 | Install all dependencies | done | pubky, react-flow, tailwind v4, vitest, playwright |
 | Configure Tailwind CSS (dark mode only) | done | Using @tailwindcss/postcss with v4 syntax |
 | Configure Vitest + React Testing Library | done | vitest.config.ts with jsdom environment |
+| Write useSimulation tests | done | Comprehensive TDD test suite (22 test cases), all passing |
+| Implement useSimulation hook | done | State machine with refs for async operations, all tests passing |
 
 ---
 
