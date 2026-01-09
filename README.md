@@ -16,7 +16,6 @@ Distributed architectures are often hard to grasp because the data flow is non-l
 2.  **Discovery Layer:** Mainline DHT lookups over PKDNS.
 3.  **Storage Layer:** Publishing media to homeserver.
 4.  **Indexing Layer:** Nexus crawling homeserver.
-5.  **** Nexus crawling homeserver.
 
 For each step pubkeytecture furthermore explains, why given architecture is beneficial, highlighting concepts like [Credible Exit](https://newsletter.squishy.computer/p/credible-exit).
 
@@ -40,9 +39,13 @@ Follow a single piece of content from a user's click to the global feed:
 
 ## 🛠️ Tech Stack
 
-- **Core Logic:** TypeScript
-- **Pubky Protocol:** `@synonymdev/pubky` (v0.6.0-rc.7)
-- **Visuals:** React + Framer Motion
+- **Build:** Vite + React + TypeScript
+- **Styling:** Tailwind CSS (dark mode only)
+- **Diagrams:** React Flow (@xyflow/react)
+- **Animations:** Framer Motion
+- **Pubky Protocol:** `@synonymdev/pubky`
+- **Testing:** Vitest + Playwright
+- **Deployment:** GitHub Pages (static SPA)
 
 ---
 

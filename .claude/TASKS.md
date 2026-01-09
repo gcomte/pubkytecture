@@ -48,11 +48,7 @@ When a package feels too large, split it. When packages are too granular, merge 
 
 | Package | Status | Notes |
 |---------|--------|-------|
-| Initialize Vite + React + TypeScript project | pending | |
-| Install all dependencies | pending | pubky, react-flow, tailwind, framer-motion, vitest, playwright |
-| Configure Tailwind CSS (dark mode only) | pending | |
-| Configure Vitest + React Testing Library | pending | |
-| Set up GitHub Actions CI | pending | Lint, type-check, unit tests, build |
+| Set up GitHub Actions CI | pending | Lint, type-check, unit tests, build, deploy to GitHub Pages |
 
 ### Core State Machine (TDD Required)
 
@@ -95,6 +91,10 @@ When a package feels too large, split it. When packages are too granular, merge 
 | Create Claude Code Skills | done | 4 skills: TDD, testing, architecture, artifacts |
 | Create implementation plan | done | .claude/plans/golden-popping-simon.md |
 | Define initial work packages | done | This file |
+| Initialize Vite + React + TypeScript project | done | Manually created config files, GitHub Pages support |
+| Install all dependencies | done | pubky, react-flow, tailwind v4, vitest, playwright |
+| Configure Tailwind CSS (dark mode only) | done | Using @tailwindcss/postcss with v4 syntax |
+| Configure Vitest + React Testing Library | done | vitest.config.ts with jsdom environment |
 
 ---
 
