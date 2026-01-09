@@ -65,7 +65,6 @@ When a package feels too large, split it. When packages are too granular, merge 
 
 | Package | Status | Notes |
 |---------|--------|-------|
-| Create MainLayout (three-panel structure) | pending | |
 | Set up React Flow canvas with architecture nodes | pending | All nodes visible: Local, PKNS, DHT, Homeserver, Nexus, pubky.app, eventky.app |
 | Add data packet animations | pending | Framer Motion |
 
@@ -96,6 +95,7 @@ When a package feels too large, split it. When packages are too granular, merge 
 | Explore Pubky v0.6.0-rc.7 API | done | Documented API flow in src/lib/pubky-exploration.md with Identity Birth example |
 | Write Identity Birth step tests | done | TDD test suite (18 test cases) covering all 4 steps, data accumulation, errors |
 | Implement Identity Birth step definitions | done | Created 4-step flow (keypair → recovery → signup → verify), all 18 tests passing |
+| Create MainLayout (three-panel structure) | done | MainLayout, DiagramPanel, ExplanationPanel, ControlBar with dark mode styling |
 
 ---
 
