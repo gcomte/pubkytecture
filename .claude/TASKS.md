@@ -1,0 +1,91 @@
+# Pubkytecture Tasks
+
+## Workflow Instructions
+
+### Before Starting Work
+
+1. **Read all packages** - Understand current state of the backlog
+2. **Evaluate priorities** - For each pending package, consider:
+   - What blocks other work?
+   - What delivers the most value right now?
+   - What dependencies are satisfied?
+   - What did we learn that changes importance?
+3. **Select highest priority** - Pick the package with greatest impact given current context
+4. **Update status** - Mark as `in-progress` and begin work
+
+### After Completing Work
+
+1. **Mark completed** - Move to Completed section with brief notes on what was done/learned
+2. **Review all packages** - For each remaining package, ask:
+   - Does this package still make sense?
+   - Should it be split, merged, or reworded?
+   - Should it be removed?
+3. **Discover new packages** - Add any work discovered during implementation
+4. **Return to "Before Starting Work"** - Re-evaluate priorities fresh and pick next
+
+Priorities are NOT stored. They are evaluated fresh each cycle.
+
+---
+
+## Work Packages
+
+### Setup & Infrastructure
+
+| Package | Status | Notes |
+|---------|--------|-------|
+| Initialize Vite + React + TypeScript project | pending | |
+| Install all dependencies | pending | pubky, react-flow, tailwind, framer-motion, vitest, playwright |
+| Configure Tailwind CSS (dark mode only) | pending | |
+| Configure Vitest + React Testing Library | pending | |
+
+### Core State Machine (TDD Required)
+
+| Package | Status | Notes |
+|---------|--------|-------|
+| Write useSimulation tests | pending | Test-first |
+| Implement useSimulation hook | pending | Make tests pass |
+
+### Identity Birth Flow (TDD Required for Logic)
+
+| Package | Status | Notes |
+|---------|--------|-------|
+| Write Identity Birth step tests | pending | Test-first for step logic |
+| Implement Identity Birth step definitions | pending | |
+| Create Pubky wrapper (lib/pubky.ts) | pending | Explore API, then add integration tests |
+
+### UI Components
+
+| Package | Status | Notes |
+|---------|--------|-------|
+| Create MainLayout (three-panel structure) | pending | |
+| Set up React Flow canvas with architecture nodes | pending | All nodes visible: Local, PKNS, DHT, Homeserver, Nexus, pubky.app, eventky.app |
+| Add data packet animations | pending | Framer Motion |
+
+### Integration & Polish
+
+| Package | Status | Notes |
+|---------|--------|-------|
+| Wire up Identity Birth flow end-to-end | pending | |
+| Add error handling UI | pending | Retry, reset options |
+| Write Playwright E2E tests | pending | All network calls mocked |
+
+---
+
+## Completed
+
+| Package | Completed | Notes |
+|---------|-----------|-------|
+| Create CLAUDE.md and project docs | done | Progressive disclosure structure |
+| Create Claude Code Skills | done | 4 skills: TDD, testing, architecture, artifacts |
+| Create implementation plan | done | .claude/plans/golden-popping-simon.md |
+| Define initial work packages | done | This file |
+
+---
+
+## Review Log
+
+### Review 1 - Initial Setup
+**Date:** Session start
+**Decisions:** Created 15 work packages grouped by concern
+**Next:** Follow "Before Starting Work" to evaluate and select first package
+
