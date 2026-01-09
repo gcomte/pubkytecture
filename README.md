@@ -92,6 +92,19 @@ npm install
 npm run dev
 ```
 
+### Development
+
+```bash
+# Run unit tests
+npm run test
+
+# Run E2E tests (when implemented)
+npm run test:e2e
+
+# Build for production
+npm run build
+```
+
 ---
 
 ## 📖 Educational Goals
