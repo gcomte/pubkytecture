@@ -10,31 +10,41 @@ describe('useSimulation', () => {
     { id: 'step3', title: 'Step 3' },
   ];
 
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   describe('initialization', () => {
     it('starts at step 0 with idle status', () => {
-      const { result } = renderHook(() => useSimulation(mockSteps));
+      const { result, unmount } = renderHook(() => useSimulation(mockSteps));
 
       expect(result.current.currentStep).toBe(0);
       expect(result.current.status).toBe('idle');
       expect(result.current.totalSteps).toBe(3);
+
+      unmount();
     });
 
     it('initializes with empty data', () => {
-      const { result } = renderHook(() => useSimulation(mockSteps));
+      const { result, unmount } = renderHook(() => useSimulation(mockSteps));
 
       expect(result.current.data).toEqual({});
+
+      unmount();
     });
 
     it('initializes without error', () => {
-      const { result } = renderHook(() => useSimulation(mockSteps));
+      const { result, unmount } = renderHook(() => useSimulation(mockSteps));
 
       expect(result.current.error).toBeUndefined();
+
+      unmount();
     });
   });
 
   describe('next()', () => {
     it('advances to next step when current step has no execute function', async () => {
-      const { result } = renderHook(() => useSimulation(mockSteps));
+      const { result, unmount } = renderHook(() => useSimulation(mockSteps));
 
       await act(async () => {
         await result.current.next();
@@ -42,6 +52,8 @@ describe('useSimulation', () => {
 
       expect(result.current.currentStep).toBe(1);
       expect(result.current.status).toBe('idle');
+
+      unmount();
     });
 
     it('sets loading status while executing async step', async () => {
@@ -52,10 +64,11 @@ describe('useSimulation', () => {
       };
       const steps = [asyncStep];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
-      const nextPromise = act(async () => {
-        await result.current.next();
+      // Start the async operation
+      act(() => {
+        result.current.next();
       });
 
       // Check loading status during execution
@@ -63,7 +76,12 @@ describe('useSimulation', () => {
         expect(result.current.status).toBe('loading');
       });
 
-      await nextPromise;
+      // Wait for completion
+      await waitFor(() => {
+        expect(result.current.status).toBe('complete');
+      });
+
+      unmount();
     });
 
     it('accumulates data from step execution', async () => {
@@ -74,15 +92,19 @@ describe('useSimulation', () => {
       };
       const steps = [stepWithData, mockSteps[1]];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       await act(async () => {
         await result.current.next();
       });
 
-      expect(result.current.data).toEqual({ keypair: 'mock-keypair' });
-      expect(result.current.currentStep).toBe(1);
-      expect(result.current.status).toBe('complete');
+      await waitFor(() => {
+        expect(result.current.data).toEqual({ keypair: 'mock-keypair' });
+        expect(result.current.currentStep).toBe(1);
+        expect(result.current.status).toBe('complete');
+      });
+
+      unmount();
     });
 
     it('preserves previous data when adding new data', async () => {
@@ -98,21 +120,29 @@ describe('useSimulation', () => {
       };
       const steps = [step1, step2, mockSteps[2]];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       await act(async () => {
         await result.current.next();
       });
 
+      await waitFor(() => {
+        expect(result.current.status).toBe('complete');
+      });
+
       await act(async () => {
         await result.current.next();
       });
 
-      expect(result.current.data).toEqual({
-        keypair: 'mock-keypair',
-        recoveryFile: 'mock-file',
+      await waitFor(() => {
+        expect(result.current.data).toEqual({
+          keypair: 'mock-keypair',
+          recoveryFile: 'mock-file',
+        });
+        expect(result.current.currentStep).toBe(2);
       });
-      expect(result.current.currentStep).toBe(2);
+
+      unmount();
     });
 
     it('sets error status when step execution fails', async () => {
@@ -123,21 +153,25 @@ describe('useSimulation', () => {
       };
       const steps = [failingStep];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       await act(async () => {
         await result.current.next();
       });
 
-      expect(result.current.status).toBe('error');
-      expect(result.current.error).toBeInstanceOf(Error);
-      expect(result.current.error?.message).toBe('Network error');
-      expect(result.current.currentStep).toBe(0); // Should stay at current step on error
+      await waitFor(() => {
+        expect(result.current.status).toBe('error');
+        expect(result.current.error).toBeInstanceOf(Error);
+        expect(result.current.error?.message).toBe('Network error');
+        expect(result.current.currentStep).toBe(0); // Should stay at current step on error
+      });
+
+      unmount();
     });
 
     it('does not advance beyond last step', async () => {
       const steps = [mockSteps[0]];
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       await act(async () => {
         await result.current.next();
@@ -149,6 +183,8 @@ describe('useSimulation', () => {
 
       expect(result.current.currentStep).toBe(1);
       expect(result.current.status).toBe('idle');
+
+      unmount();
     });
 
     it('passes accumulated data to step execute function', async () => {
@@ -165,18 +201,26 @@ describe('useSimulation', () => {
       };
       const steps = [step1, step2];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       await act(async () => {
         await result.current.next();
+      });
+
+      await waitFor(() => {
+        expect(result.current.status).toBe('complete');
       });
 
       await act(async () => {
         await result.current.next();
       });
 
-      expect(executeMock).toHaveBeenCalledWith({ initial: 'data' });
-      expect(result.current.data).toEqual({ initial: 'data', newData: 'value' });
+      await waitFor(() => {
+        expect(executeMock).toHaveBeenCalledWith({ initial: 'data' });
+        expect(result.current.data).toEqual({ initial: 'data', newData: 'value' });
+      });
+
+      unmount();
     });
   });
 
@@ -189,11 +233,15 @@ describe('useSimulation', () => {
       };
       const steps = [stepWithData, mockSteps[1], mockSteps[2]];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       // Advance to step 1
       await act(async () => {
         await result.current.next();
+      });
+
+      await waitFor(() => {
+        expect(result.current.status).toBe('complete');
       });
 
       // Go back to step 0
@@ -203,16 +251,20 @@ describe('useSimulation', () => {
 
       expect(result.current.currentStep).toBe(0);
       expect(result.current.data).toEqual({ keypair: 'mock-keypair' }); // Data preserved
+
+      unmount();
     });
 
     it('does not go before step 0', () => {
-      const { result } = renderHook(() => useSimulation(mockSteps));
+      const { result, unmount } = renderHook(() => useSimulation(mockSteps));
 
       act(() => {
         result.current.previous();
       });
 
       expect(result.current.currentStep).toBe(0);
+
+      unmount();
     });
 
     it('clears error status when navigating backward', async () => {
@@ -223,7 +275,7 @@ describe('useSimulation', () => {
       };
       const steps = [mockSteps[0], failingStep];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       // Advance to step 1
       await act(async () => {
@@ -235,7 +287,9 @@ describe('useSimulation', () => {
         await result.current.next();
       });
 
-      expect(result.current.status).toBe('error');
+      await waitFor(() => {
+        expect(result.current.status).toBe('error');
+      });
 
       // Go back
       act(() => {
@@ -244,6 +298,8 @@ describe('useSimulation', () => {
 
       expect(result.current.status).toBe('idle');
       expect(result.current.error).toBeUndefined();
+
+      unmount();
     });
   });
 
@@ -256,10 +312,14 @@ describe('useSimulation', () => {
       };
       const steps = [stepWithData, mockSteps[1]];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       await act(async () => {
         await result.current.next();
+      });
+
+      await waitFor(() => {
+        expect(result.current.status).toBe('complete');
       });
 
       act(() => {
@@ -268,6 +328,8 @@ describe('useSimulation', () => {
 
       expect(result.current.currentStep).toBe(0);
       expect(result.current.status).toBe('idle');
+
+      unmount();
     });
 
     it('clears all accumulated data', async () => {
@@ -278,10 +340,14 @@ describe('useSimulation', () => {
       };
       const steps = [stepWithData, mockSteps[1]];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       await act(async () => {
         await result.current.next();
+      });
+
+      await waitFor(() => {
+        expect(result.current.status).toBe('complete');
       });
 
       act(() => {
@@ -289,6 +355,8 @@ describe('useSimulation', () => {
       });
 
       expect(result.current.data).toEqual({});
+
+      unmount();
     });
 
     it('clears error state', async () => {
@@ -299,10 +367,14 @@ describe('useSimulation', () => {
       };
       const steps = [failingStep];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       await act(async () => {
         await result.current.next();
+      });
+
+      await waitFor(() => {
+        expect(result.current.status).toBe('error');
       });
 
       act(() => {
@@ -311,6 +383,8 @@ describe('useSimulation', () => {
 
       expect(result.current.error).toBeUndefined();
       expect(result.current.status).toBe('idle');
+
+      unmount();
     });
   });
 
@@ -330,24 +404,30 @@ describe('useSimulation', () => {
       };
       const steps = [flakyStep];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       // First attempt - should fail
       await act(async () => {
         await result.current.next();
       });
 
-      expect(result.current.status).toBe('error');
-      expect(result.current.currentStep).toBe(0);
+      await waitFor(() => {
+        expect(result.current.status).toBe('error');
+        expect(result.current.currentStep).toBe(0);
+      });
 
       // Retry - should succeed
       await act(async () => {
         await result.current.retry();
       });
 
-      expect(result.current.status).toBe('complete');
-      expect(result.current.currentStep).toBe(1);
-      expect(result.current.data).toEqual({ success: true });
+      await waitFor(() => {
+        expect(result.current.status).toBe('complete');
+        expect(result.current.currentStep).toBe(1);
+        expect(result.current.data).toEqual({ success: true });
+      });
+
+      unmount();
     });
 
     it('does not execute when status is not error', async () => {
@@ -359,7 +439,7 @@ describe('useSimulation', () => {
       };
       const steps = [step];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       await act(async () => {
         await result.current.retry();
@@ -367,6 +447,8 @@ describe('useSimulation', () => {
 
       expect(executeMock).not.toHaveBeenCalled();
       expect(result.current.status).toBe('idle');
+
+      unmount();
     });
 
     it('preserves data from previous successful steps', async () => {
@@ -391,11 +473,15 @@ describe('useSimulation', () => {
 
       const steps = [step1, step2];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       // Complete step 1
       await act(async () => {
         await result.current.next();
+      });
+
+      await waitFor(() => {
+        expect(result.current.status).toBe('complete');
       });
 
       // Fail step 2
@@ -403,28 +489,37 @@ describe('useSimulation', () => {
         await result.current.next();
       });
 
-      expect(result.current.data).toEqual({ first: 'data' });
+      await waitFor(() => {
+        expect(result.current.status).toBe('error');
+        expect(result.current.data).toEqual({ first: 'data' });
+      });
 
       // Retry step 2
       await act(async () => {
         await result.current.retry();
       });
 
-      expect(result.current.data).toEqual({ first: 'data', second: 'data' });
+      await waitFor(() => {
+        expect(result.current.data).toEqual({ first: 'data', second: 'data' });
+      });
+
+      unmount();
     });
   });
 
   describe('edge cases', () => {
     it('handles empty steps array', () => {
-      const { result } = renderHook(() => useSimulation([]));
+      const { result, unmount } = renderHook(() => useSimulation([]));
 
       expect(result.current.currentStep).toBe(0);
       expect(result.current.totalSteps).toBe(0);
       expect(result.current.status).toBe('idle');
+
+      unmount();
     });
 
     it('handles single step', async () => {
-      const { result } = renderHook(() => useSimulation([mockSteps[0]]));
+      const { result, unmount } = renderHook(() => useSimulation([mockSteps[0]]));
 
       await act(async () => {
         await result.current.next();
@@ -432,6 +527,8 @@ describe('useSimulation', () => {
 
       expect(result.current.currentStep).toBe(1);
       expect(result.current.totalSteps).toBe(1);
+
+      unmount();
     });
 
     it('handles step that returns empty object', async () => {
@@ -442,14 +539,18 @@ describe('useSimulation', () => {
       };
       const steps = [emptyStep];
 
-      const { result } = renderHook(() => useSimulation(steps));
+      const { result, unmount } = renderHook(() => useSimulation(steps));
 
       await act(async () => {
         await result.current.next();
       });
 
-      expect(result.current.data).toEqual({});
-      expect(result.current.status).toBe('complete');
+      await waitFor(() => {
+        expect(result.current.data).toEqual({});
+        expect(result.current.status).toBe('complete');
+      });
+
+      unmount();
     });
   });
 });
