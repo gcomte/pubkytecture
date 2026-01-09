@@ -59,7 +59,6 @@ When a package feels too large, split it. When packages are too granular, merge 
 
 | Package | Status | Notes |
 |---------|--------|-------|
-| Write Identity Birth step tests | pending | Test-first for step logic |
 | Implement Identity Birth step definitions | pending | |
 | Create Pubky wrapper (lib/pubky.ts) | pending | Explore API, then add integration tests |
 
@@ -95,6 +94,8 @@ When a package feels too large, split it. When packages are too granular, merge 
 | Configure Vitest + React Testing Library | done | vitest.config.ts with jsdom environment |
 | Write useSimulation tests | done | Comprehensive TDD test suite (22 test cases), all passing |
 | Implement useSimulation hook | done | State machine with refs for async operations, all tests passing |
+| Explore Pubky v0.6.0-rc.7 API | done | Documented API flow in src/lib/pubky-exploration.md with Identity Birth example |
+| Write Identity Birth step tests | done | TDD test suite (18 test cases) covering all 4 steps, data accumulation, errors |
 
 ---
 
