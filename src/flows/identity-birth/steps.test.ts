@@ -195,7 +195,7 @@ describe('Identity Birth Steps', () => {
       };
 
       const authError = new Error('Invalid signup token');
-      (authError as any).name = 'AuthenticationError';
+      Object.defineProperty(authError, 'name', { value: 'AuthenticationError' });
 
       vi.mocked(mockClient.signup).mockRejectedValueOnce(authError);
 
@@ -216,7 +216,7 @@ describe('Identity Birth Steps', () => {
       };
 
       const pkarrError = new Error('DHT publish failed');
-      (pkarrError as any).name = 'PkarrError';
+      Object.defineProperty(pkarrError, 'name', { value: 'PkarrError' });
 
       vi.mocked(mockClient.signup).mockRejectedValueOnce(pkarrError);
 
@@ -380,7 +380,7 @@ describe('Identity Birth Steps', () => {
 
       try {
         await steps[1].execute!(data1);
-      } catch (error) {
+      } catch {
         // Accumulated data from Step 1 should still be available
         expect(data1).toHaveProperty('keypair');
       }
