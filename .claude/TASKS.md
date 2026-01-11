@@ -73,6 +73,7 @@ When a package feels too large, split it. When packages are too granular, merge 
 |---------|--------|-------|
 | Wire up Identity Birth flow end-to-end | pending | |
 | Add error handling UI | pending | Retry, reset options |
+| Add mobile responsiveness | pending | Collapsible panels, touch-friendly controls, responsive layout for small screens |
 | Write Playwright E2E tests | pending | All network calls mocked |
 
 ---

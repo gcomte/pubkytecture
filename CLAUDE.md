@@ -2,7 +2,7 @@
 
 Visual "glass-box" simulator for the Pubky ecosystem. Shows data flow through distributed architecture in real-time with actual network operations.
 
-**Design:** Dark mode only.
+**Design:** Dark mode only. **Mobile-responsive** - all UI components must work on mobile devices.
 **Deployment:** Must run on GitHub Pages (static SPA, no server).
 **Testing:** All tests must mock network calls - never write to live Pubky systems.
 
