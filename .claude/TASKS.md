@@ -48,7 +48,6 @@ When a package feels too large, split it. When packages are too granular, merge 
 
 | Package | Status | Notes |
 |---------|--------|-------|
-| Set up GitHub Actions CI | pending | Lint, type-check, unit tests, build, deploy to GitHub Pages |
 
 ### Core State Machine (TDD Required)
 
@@ -96,6 +95,7 @@ When a package feels too large, split it. When packages are too granular, merge 
 | Write Identity Birth step tests | done | TDD test suite (18 test cases) covering all 4 steps, data accumulation, errors |
 | Implement Identity Birth step definitions | done | Created 4-step flow (keypair → recovery → signup → verify), all 18 tests passing |
 | Create MainLayout (three-panel structure) | done | MainLayout, DiagramPanel, ExplanationPanel, ControlBar with dark mode styling |
+| Set up GitHub Actions CI | done | Workflow with lint, type-check, tests, build, and GitHub Pages deployment |
 
 ---
 
