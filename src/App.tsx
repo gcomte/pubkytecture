@@ -26,8 +26,8 @@ function App() {
           stepDescription="Creating a new Ed25519 keypair locally. This keypair becomes your sovereign identity on the Pubky network."
           location="Local Machine"
           concept={{
-            title: "Why Credible Exit?",
-            description: "Your keypair is generated locally and never shared. You can move to any homeserver without losing your identity - this is the foundation of credible exit."
+            title: "Self-sovereignty",
+            description: "Your keypair is generated locally, and your private key never leaves your device. You retain full control over the core identifier of your identity — forming the basis for true ownership and a credible exit."
           }}
           data={{
             publicKey: "8pinxxgqs41n4aididenw5apqp1urfmzdztr8jt4abrkdn435ewo",
