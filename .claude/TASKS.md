@@ -54,24 +54,31 @@ When a package feels too large, split it. When packages are too granular, merge 
 | Package | Status | Notes |
 |---------|--------|-------|
 
-### Identity Birth Flow (TDD Required for Logic)
+### React Flow Canvas
+
+| Package | Status | Notes |
+|---------|--------|-------|
+
+### Post Journey Flow (Priority #1)
+
+| Package | Status | Notes |
+|---------|--------|-------|
+| Create post input UI | pending | Text input + Publish button on main page |
+| Implement Post Journey step logic | pending | Mock post creation → homeserver → nexus → apps |
+| Add data packet animations | pending | Framer Motion, animate post flowing through system |
+| Wire up Post Journey flow end-to-end | pending | Connect UI + state machine + diagram |
+
+### Identity Birth Flow (Priority #2)
 
 | Package | Status | Notes |
 |---------|--------|-------|
 | Create Pubky wrapper (lib/pubky.ts) | pending | Explore API, then add integration tests |
-
-### UI Components
-
-| Package | Status | Notes |
-|---------|--------|-------|
-| Set up React Flow canvas with architecture nodes | pending | All nodes visible: Local, PKNS, DHT, Homeserver, Nexus, pubky.app, eventky.app |
-| Add data packet animations | pending | Framer Motion |
+| Wire up Identity Birth flow end-to-end | pending | Use existing step definitions |
 
 ### Integration & Polish
 
 | Package | Status | Notes |
 |---------|--------|-------|
-| Wire up Identity Birth flow end-to-end | pending | |
 | Add error handling UI | pending | Retry, reset options |
 | Add mobile responsiveness | pending | Collapsible panels, touch-friendly controls, responsive layout for small screens |
 | Write Playwright E2E tests | pending | All network calls mocked |
@@ -97,6 +104,7 @@ When a package feels too large, split it. When packages are too granular, merge 
 | Implement Identity Birth step definitions | done | Created 4-step flow (keypair → recovery → signup → verify), all 18 tests passing |
 | Create MainLayout (three-panel structure) | done | MainLayout, DiagramPanel, ExplanationPanel, ControlBar with dark mode styling |
 | Set up GitHub Actions CI | done | Workflow with lint, type-check, tests, build, and GitHub Pages deployment |
+| Set up React Flow canvas with architecture nodes | done | PubkyDiagram with 7 nodes (Local, PKNS, DHT, Homeserver, Nexus, pubky.app, eventky.app), custom ArchitectureNode with active/highlighted states |
 
 ---
 
