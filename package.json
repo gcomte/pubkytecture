@@ -15,6 +15,7 @@
     "@synonymdev/pubky": "^0.6.0-rc.7",
     "@xyflow/react": "^12.10.0",
     "framer-motion": "^12.25.0",
+    "qrcode.react": "^4.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

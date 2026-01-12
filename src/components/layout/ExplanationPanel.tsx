@@ -13,13 +13,13 @@ import type { ReactNode } from 'react';
 
 interface ExplanationPanelProps {
   stepTitle: string;
-  stepDescription: string;
+  stepDescription: ReactNode;
   concept?: {
     title: string;
-    description: string;
+    description: ReactNode;
   };
   data?: Record<string, unknown>;
-  location?: string;
+  location?: ReactNode;
   children?: ReactNode;
 }
 
