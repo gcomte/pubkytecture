@@ -85,9 +85,7 @@ When a package feels too large, split it. When packages are too granular, merge 
 | Package | Status | Notes |
 |---------|--------|-------|
 | Change favicon to pubky.org favicon | pending | Download and use the favicon from pubky.org |
-| Collapse side panel on mobile by default | pending | Add toggle button to show/hide explanation panel on mobile, collapsed by default so diagram is visible |
 | Add error handling UI | pending | Retry, reset options |
-| Add mobile responsiveness | pending | Collapsible panels, touch-friendly controls, responsive layout for small screens |
 | Write Playwright E2E tests | pending | All network calls mocked |
 
 ---
@@ -112,6 +110,7 @@ When a package feels too large, split it. When packages are too granular, merge 
 | Create MainLayout (three-panel structure) | done | MainLayout, DiagramPanel, ExplanationPanel, ControlBar with dark mode styling |
 | Set up GitHub Actions CI | done | Workflow with lint, type-check, tests, build, and GitHub Pages deployment |
 | Set up React Flow canvas with architecture nodes | done | PubkyDiagram with 7 nodes (Local, PKNS, DHT, Homeserver, Nexus, pubky.app, eventky.app), custom ArchitectureNode with active/highlighted states |
+| Collapse side panel on mobile by default | done | Explanation panel now slides in as overlay on mobile (< md), collapsed by default with hamburger toggle button. Desktop unchanged. Verified with screenshots (375x667). |
 
 ---
 
