@@ -19,7 +19,7 @@ interface ExplanationPanelProps {
     description: ReactNode;
   };
   data?: Record<string, unknown>;
-  location?: string;
+  location?: ReactNode;
   children?: ReactNode;
 }
 
