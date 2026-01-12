@@ -21,48 +21,66 @@ export function PubkyLogin({ onLoginSuccess, onLoginError }: PubkyLoginProps) {
   const [authUrl, setAuthUrl] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
   const [status, setStatus] = useState<'generating' | 'waiting' | 'success' | 'error'>('generating');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     const generateAuthRequest = async () => {
       try {
-        console.log('🔐 Starting Pubky authentication flow...');
+        console.log('🔐 [STEP 1/5] Starting Pubky authentication flow...');
+        console.log('Environment:', {
+          isDev: import.meta.env.DEV,
+          mode: import.meta.env.MODE,
+          baseUrl: import.meta.env.BASE_URL,
+        });
         setStatus('generating');
         setIsLoading(true);
 
         // Initialize Pubky client
-        console.log('Initializing Pubky client...');
+        console.log('🔐 [STEP 2/5] Initializing Pubky client...');
         const pubky = new Pubky();
+        console.log('✓ Pubky client initialized successfully');
 
         // Start auth flow for sign-in
-        console.log('Starting auth flow with capabilities:', CAPABILITIES);
+        console.log('🔐 [STEP 3/5] Starting auth flow...');
+        console.log('Capabilities:', CAPABILITIES);
         console.log('HTTP Relay:', DEFAULT_HTTP_RELAY);
+        console.log('Auth Flow Kind:', 'signin');
 
         const authFlow = pubky.startAuthFlow(
           CAPABILITIES,
           AuthFlowKind.signin(),
           DEFAULT_HTTP_RELAY
         );
+        console.log('✓ Auth flow started successfully');
 
+        console.log('🔐 [STEP 4/5] Generating auth URL...');
         console.log('Auth URL generated:', authFlow.authorizationUrl);
         setAuthUrl(authFlow.authorizationUrl);
         setStatus('waiting');
         setIsLoading(false);
 
-        console.log('⏳ Waiting for user to scan and approve in Pubky Ring...');
+        console.log('🔐 [STEP 5/5] Waiting for user to scan and approve in Pubky Ring...');
 
         // Wait for user to scan and approve in Pubky Ring
         const session = await authFlow.awaitApproval();
         const publicKeyStr = session.info.publicKey.z32();
 
         console.log('✅ Authentication approved!');
+        console.log('Public Key:', publicKeyStr);
         console.log('Session info:', session.info);
 
         setStatus('success');
         onLoginSuccess?.(publicKeyStr);
       } catch (error) {
-        console.error('❌ Auth request failed:', error);
+        console.error('❌ [ERROR] Auth request failed at step:', status);
+        console.error('Error object:', error);
         console.error('Error type:', typeof error);
-        console.error('Error details:', error);
+        console.error('Error name:', error instanceof Error ? error.name : 'unknown');
+        console.error('Error message:', error instanceof Error ? error.message : String(error));
+        console.error('Error stack:', error instanceof Error ? error.stack : 'no stack');
+
+        const errorMsg = error instanceof Error ? error.message : String(error);
+        setErrorMessage(errorMsg);
         setStatus('error');
         setIsLoading(false);
         onLoginError?.(error as Error);
@@ -70,7 +88,8 @@ export function PubkyLogin({ onLoginSuccess, onLoginError }: PubkyLoginProps) {
     };
 
     generateAuthRequest();
-  }, [onLoginSuccess, onLoginError]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (isLoading) {
     return (
@@ -84,9 +103,19 @@ export function PubkyLogin({ onLoginSuccess, onLoginError }: PubkyLoginProps) {
 
   if (status === 'error') {
     return (
-      <div className="rounded-lg border border-red-800 bg-red-950/30 p-4">
-        <p className="text-sm text-red-300">
-          Failed to generate login QR code. Please try again.
+      <div className="space-y-3 rounded-lg border border-red-800 bg-red-950/30 p-4">
+        <p className="text-sm font-semibold text-red-300">
+          Failed to generate login QR code
+        </p>
+        {errorMessage && (
+          <div className="rounded bg-red-950/50 p-3">
+            <p className="font-mono text-xs text-red-200">
+              Error: {errorMessage}
+            </p>
+          </div>
+        )}
+        <p className="text-xs text-red-400">
+          Check the browser console for detailed error information.
         </p>
       </div>
     );
