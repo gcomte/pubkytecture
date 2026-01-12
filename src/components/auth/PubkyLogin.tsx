@@ -14,7 +14,8 @@ interface PubkyLoginProps {
   onLoginError?: (error: Error) => void;
 }
 
-const DEFAULT_HTTP_RELAY = '/api/httprelay/link/';
+// Always use Cloudflare Worker proxy for CORS-compliant HTTP relay
+const DEFAULT_HTTP_RELAY = 'https://pubkytecture-httprelay-proxy.gcomte.workers.dev/link/';
 const CAPABILITIES = '/pub/pubky.app/:rw';
 
 export function PubkyLogin({ onLoginSuccess, onLoginError }: PubkyLoginProps) {
