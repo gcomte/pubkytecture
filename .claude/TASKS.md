@@ -68,7 +68,7 @@ When a package feels too large, split it. When packages are too granular, merge 
 
 | Package | Status | Notes |
 |---------|--------|-------|
-| Create post input UI | pending | Text input + Publish button on main page |
+| Create post input UI | in-progress | PostPreview component with predefined image (https://i.ibb.co/9kJWXCy1/postpicture.png) + Publish button. UI complete, needs integration with state machine. |
 | Implement Post Journey step logic | pending | Mock post creation → homeserver → nexus → apps |
 | Add data packet animations | pending | Framer Motion, animate post flowing through system |
 | Wire up Post Journey flow end-to-end | pending | Connect UI + state machine + diagram |

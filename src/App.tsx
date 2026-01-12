@@ -7,6 +7,7 @@
 
 import { MainLayout, DiagramPanel, ExplanationPanel, ControlBar } from './components/layout';
 import { PubkyDiagram } from './components/diagram';
+import { PostPreview } from './components/post';
 
 function App() {
   return (
@@ -19,16 +20,17 @@ function App() {
       explanationPanel={
         <ExplanationPanel
           stepTitle="Create a Post"
-          stepDescription="Write a post and publish it to the Pubky network. Watch as it flows through the distributed system to appear in social feeds."
-          location="Local Machine"
+          stepDescription="Publish a picture to pubky.app. Watch as it flows through the distributed system to appear in social feeds."
           concept={{
-            title: "Distributed Publishing",
-            description: "Your post is stored on your homeserver, indexed by Nexus, and made discoverable to all Pubky applications - without any centralized platform controlling your content."
+            title: "Self-sovereign Publishing",
+            description: "Your post is stored on your homeserver and made discoverable by pubky.app - without any centralized platform controlling your content."
           }}
-          data={{
-            status: "Ready to publish"
-          }}
-        />
+        >
+          <PostPreview
+            imageUrl="/pubkytecture/post-image.png"
+            onPublish={() => console.log('Publishing post...')}
+          />
+        </ExplanationPanel>
       }
       controlBar={
         <ControlBar

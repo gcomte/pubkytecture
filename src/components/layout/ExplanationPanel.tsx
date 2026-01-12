@@ -6,7 +6,10 @@
  * - Educational explanations (e.g., "Why Credible Exit?")
  * - Live data view (public keys, session info, etc.)
  * - Location indicator (which node is active)
+ * - Optional custom content (children)
  */
+
+import type { ReactNode } from 'react';
 
 interface ExplanationPanelProps {
   stepTitle: string;
@@ -17,6 +20,7 @@ interface ExplanationPanelProps {
   };
   data?: Record<string, unknown>;
   location?: string;
+  children?: ReactNode;
 }
 
 export function ExplanationPanel({
@@ -25,6 +29,7 @@ export function ExplanationPanel({
   concept,
   data,
   location,
+  children,
 }: ExplanationPanelProps) {
   return (
     <div className="space-y-6">
@@ -81,6 +86,9 @@ export function ExplanationPanel({
           </div>
         </div>
       )}
+
+      {/* Custom content */}
+      {children}
     </div>
   );
 }
