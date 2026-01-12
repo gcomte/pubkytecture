@@ -14,7 +14,10 @@ interface PubkyLoginProps {
   onLoginError?: (error: Error) => void;
 }
 
-const DEFAULT_HTTP_RELAY = '/api/httprelay/link/';
+// Use Vite proxy in development, Cloudflare Worker proxy in production
+const DEFAULT_HTTP_RELAY = import.meta.env.DEV
+  ? '/api/httprelay/link/'
+  : 'https://pubkytecture-httprelay-proxy.gcomte.workers.dev/link/';
 const CAPABILITIES = '/pub/pubky.app/:rw';
 
 export function PubkyLogin({ onLoginSuccess, onLoginError }: PubkyLoginProps) {
