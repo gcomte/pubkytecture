@@ -19,16 +19,41 @@ function App() {
       }
       explanationPanel={
         <ExplanationPanel
-          stepTitle="Create a Post"
-          stepDescription="Publish a picture to pubky.app. Watch as it flows through the distributed system to appear in social feeds."
+          stepTitle="Post to pubky.app"
+          stepDescription={
+            <>
+              This website posts a picture to your{' '}
+              <a
+                href="https://pubky.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 underline hover:text-blue-300"
+              >
+                pubky.app
+              </a>{' '}
+              profile and visualizes the process. Watch how Pubky Core's components collaborate under the hood.
+            </>
+          }
           concept={{
             title: "Self-sovereign Publishing",
-            description: "Your post is stored on your homeserver and made discoverable by pubky.app - without any centralized platform controlling your content."
+            description: (
+              <>
+                The post is stored on your{' '}
+                <a
+                  href="https://github.com/pubky/pubky-core/tree/main/pubky-homeserver"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-purple-300 underline hover:text-purple-200"
+                >
+                  Homeserver
+                </a>{' '}
+                and made discoverable to pubky.app. You retain complete control over your data - running your own Homeserver means no one can restrict your access.
+              </>
+            ),
           }}
         >
           <PostPreview
-            imageUrl="/pubkytecture/post-image.png"
-            onPublish={() => console.log('Publishing post...')}
+            onPublish={() => console.log('Starting post journey...')}
           />
         </ExplanationPanel>
       }
