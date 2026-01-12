@@ -79,6 +79,7 @@ When a package feels too large, split it. When packages are too granular, merge 
 
 | Package | Status | Notes |
 |---------|--------|-------|
+| Change favicon to pubky.org favicon | pending | Download and use the favicon from pubky.org |
 | Add error handling UI | pending | Retry, reset options |
 | Add mobile responsiveness | pending | Collapsible panels, touch-friendly controls, responsive layout for small screens |
 | Write Playwright E2E tests | pending | All network calls mocked |
