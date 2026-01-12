@@ -86,7 +86,7 @@ export const ArchitectureNode = memo(({ data }: NodeProps) => {
             {label}
           </div>
           {description && (
-            <div className="text-xs text-zinc-500 mt-1">{description}</div>
+            <div className="text-xs text-zinc-500 mt-1 whitespace-pre-line">{description}</div>
           )}
         </div>
       </div>

@@ -9,16 +9,19 @@
  * 3. Homeserver → Nexus (async indexing)
  * 4. Nexus → pubky.app (read index to display post)
  *
+ * Note: eventky.app follows the same pattern (connects to PKDNS and Homeserver)
+ * but connections are not shown to keep the diagram tidy.
+ *
  * Architecture Components:
  * - Mainline DHT: Distributed Hash Table for IP resolution
  * - PKDNS: Pubky DNS resolver
  * - Homeserver: User's data storage
  * - Nexus: Pubky content indexer
- * - Eventky Indexer: Events content indexer
+ * - Eventky indexer: Events content indexer
  * - Browser Apps: pubky.app and eventky.app (run locally in browser)
- * - Web Servers: Serve app code only, no user data
+ * - web servers: Serve app code only, no user data
  *
- * Key principle: Web servers only serve app code.
+ * Key principle: web servers only serve app code.
  * All user data flows between browser apps and Pubky infrastructure.
  * No user data touches web servers (user sovereignty & credible exit).
  */
@@ -133,7 +136,7 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         position: { x: 100, y: 550 },
         style: {
           width: 800,
-          height: 220,
+          height: 250,
         },
         data: {
           label: 'Browser Apps (Local)',
@@ -165,7 +168,7 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         position: { x: 610, y: 640 },
         data: {
           label: 'eventky.app',
-          description: 'Events application',
+          description: 'Events application\n(also connects to PKDNS\nand Homeserver, but\nsimplified to reduce noise)',
           icon: '📅',
           isActive: activeNodeId === 'eventky-app',
           isHighlighted: highlightedNodeIds.includes('eventky-app'),
