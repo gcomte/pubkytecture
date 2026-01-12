@@ -4,6 +4,17 @@
 
 `pubkytecture` is a developer-focused learning tool designed to deconstruct and animate the inner workings of the [Pubky Core](https://pubky.org/) ecosystem. While most users only see the interface of a web app, `pubkytecture` provides a "glass-box" view of the entire Pubky Core lifecycle — from key generation over publishing content to global indexing.
 
+## 🚀 Start Exploring
+
+**👉 [Launch Pubkytecture](https://gcomte.github.io/pubkytecture/) 👈**
+
+Interactive visualization of the Pubky architecture.
+
+<!-- GitHub Pages URL pattern: https://<username>.github.io/<repository-name>/ -->
+<!-- Update URL if repository is moved/forked -->
+
+---
+
 powered by [`@synonymdev/pubky`](https://www.npmjs.com/package/@synonymdev/pubky)
 
 ---
