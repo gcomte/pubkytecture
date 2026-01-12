@@ -23,7 +23,7 @@ export const ArchitectureNode = memo(({ data }: NodeProps) => {
     <div
       className={`
         rounded-lg border-2 bg-zinc-900 px-4 py-3 shadow-lg transition-all
-        ${isActive ? 'border-blue-500 shadow-blue-500/50 scale-105' : ''}
+        ${isActive ? 'border-blue-500 shadow-blue-500/50 animate-pulse-active' : ''}
         ${isHighlighted ? 'border-purple-500 shadow-purple-500/30' : ''}
         ${!isActive && !isHighlighted ? 'border-zinc-700' : ''}
       `}
