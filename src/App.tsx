@@ -6,32 +6,27 @@
  */
 
 import { MainLayout, DiagramPanel, ExplanationPanel, ControlBar } from './components/layout';
+import { PubkyDiagram } from './components/diagram';
 
 function App() {
   return (
     <MainLayout
       diagramPanel={
         <DiagramPanel>
-          <div className="flex h-full items-center justify-center">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-zinc-700">React Flow Diagram</div>
-              <div className="mt-2 text-zinc-600">Architecture visualization will appear here</div>
-            </div>
-          </div>
+          <PubkyDiagram activeNodeId="local" />
         </DiagramPanel>
       }
       explanationPanel={
         <ExplanationPanel
-          stepTitle="Generate Keypair"
-          stepDescription="Creating a new Ed25519 keypair locally. This keypair becomes your sovereign identity on the Pubky network."
+          stepTitle="Create a Post"
+          stepDescription="Write a post and publish it to the Pubky network. Watch as it flows through the distributed system to appear in social feeds."
           location="Local Machine"
           concept={{
-            title: "Self-sovereignty",
-            description: "Your keypair is generated locally, and your private key never leaves your device. You retain full control over the core identifier of your identity — forming the basis for true ownership and a credible exit."
+            title: "Distributed Publishing",
+            description: "Your post is stored on your homeserver, indexed by Nexus, and made discoverable to all Pubky applications - without any centralized platform controlling your content."
           }}
           data={{
-            publicKey: "8pinxxgqs41n4aididenw5apqp1urfmzdztr8jt4abrkdn435ewo",
-            algorithm: "Ed25519"
+            status: "Ready to publish"
           }}
         />
       }
