@@ -1,0 +1,13 @@
+name = "pubkytecture-httprelay-proxy"
+main = "httprelay-proxy.js"
+compatibility_date = "2024-01-01"
+
+# Workers Paid plan allows for longer request durations
+# Free plan should be sufficient for this proxy
+workers_dev = true
+
+[env.production]
+routes = [
+  # Add your custom domain route here if you have one
+  # { pattern = "httprelay.yourdomain.com/*", zone_name = "yourdomain.com" }
+]
