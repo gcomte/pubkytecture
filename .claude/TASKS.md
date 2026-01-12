@@ -16,16 +16,21 @@
 
 ### After Completing Work
 
-1. **Mark completed** - Move to Completed section with brief notes on what was done/learned
-2. **Update README.md** - Keep it compact and tidy, reflecting current project state
-3. **Commit changes** - Create commit with clear message describing what was done
-4. **Push branch** - `git push -u origin feature/task-name` (user will create PR on GitHub)
-5. **Review all packages** - For each remaining package, ask:
+1. **Check mobile view** - Always verify mobile layout using chromium headlessly:
+   ```bash
+   chromium --headless --disable-gpu --screenshot=mobile-test.png --window-size=375,667 http://localhost:5174/pubkytecture/
+   ```
+   Then use Read tool to review the screenshot. Ensure UI is usable on mobile.
+2. **Mark completed** - Move to Completed section with brief notes on what was done/learned
+3. **Update README.md** - Keep it compact and tidy, reflecting current project state
+4. **Commit changes** - Create commit with clear message describing what was done
+5. **Push branch** - `git push -u origin feature/task-name` (user will create PR on GitHub)
+6. **Review all packages** - For each remaining package, ask:
    - Does this package still make sense?
    - Should it be split, merged, or reworded?
    - Should it be removed?
-6. **Discover new packages** - Add any work discovered during implementation
-7. **Return to "Before Starting Work"** - Re-evaluate priorities fresh and pick next
+7. **Discover new packages** - Add any work discovered during implementation
+8. **Return to "Before Starting Work"** - Re-evaluate priorities fresh and pick next
 
 Priorities are NOT stored. They are evaluated fresh each cycle.
 
@@ -80,6 +85,7 @@ When a package feels too large, split it. When packages are too granular, merge 
 | Package | Status | Notes |
 |---------|--------|-------|
 | Change favicon to pubky.org favicon | pending | Download and use the favicon from pubky.org |
+| Collapse side panel on mobile by default | pending | Add toggle button to show/hide explanation panel on mobile, collapsed by default so diagram is visible |
 | Add error handling UI | pending | Retry, reset options |
 | Add mobile responsiveness | pending | Collapsible panels, touch-friendly controls, responsive layout for small screens |
 | Write Playwright E2E tests | pending | All network calls mocked |

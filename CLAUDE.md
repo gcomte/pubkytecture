@@ -6,6 +6,8 @@ Visual "glass-box" simulator for the Pubky ecosystem. Shows data flow through di
 **Deployment:** Must run on GitHub Pages (static SPA, no server).
 **Testing:** All tests must mock network calls - never write to live Pubky systems.
 
+**Mobile-First Verification:** Always check mobile view (375x667) using chromium headlessly with screenshots before completing any UI work.
+
 ## Tech Stack
 
 - **Build:** Vite + React + TypeScript
