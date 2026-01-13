@@ -62,6 +62,8 @@ function App() {
         return undefined; // Overview - no specific node
       case 1:
         return 'pubky-app'; // Login step - highlight pubky.app
+      case 2:
+        return 'pubky-app'; // Auth success - keep highlighting pubky.app
       default:
         return undefined;
     }
@@ -138,12 +140,13 @@ function App() {
         ) : currentStep === 2 ? (
           <ExplanationPanel
             stepTitle="Authentication Successful"
-            stepDescription="Here's what we received from Pubky Ring after your successful authentication."
+            stepDescription="Here's what happened during the authentication process and what we received from Pubky Ring."
           >
             <div className="space-y-4">
+              {/* Session information received */}
               {sessionInfo && (
                 <div className="rounded-lg border border-green-800 bg-green-950/30 p-4">
-                  <h3 className="mb-3 text-sm font-semibold text-green-300">Session Information</h3>
+                  <h3 className="mb-3 text-sm font-semibold text-green-300">Session Information Received</h3>
                   <div className="space-y-2">
                     <div>
                       <div className="text-xs font-medium text-zinc-400">Public Key</div>
@@ -153,15 +156,35 @@ function App() {
                       <div className="text-xs font-medium text-zinc-400">Capabilities</div>
                       <div className="font-mono text-sm text-zinc-200">{sessionInfo.capabilities}</div>
                     </div>
-                    <div>
-                      <div className="text-xs font-medium text-zinc-400">Raw Session Data</div>
-                      <pre className="mt-1 max-h-64 overflow-auto rounded bg-zinc-900 p-3 text-xs text-zinc-300">
-                        {JSON.stringify(sessionInfo.rawSessionInfo, null, 2)}
-                      </pre>
-                    </div>
                   </div>
                 </div>
               )}
+
+              {/* Explanation of auth flow */}
+              <div className="rounded-lg border border-blue-700 bg-blue-950/30 p-4">
+                <h3 className="mb-2 text-sm font-semibold text-blue-300">Auth Flow</h3>
+                <div className="space-y-2 text-sm text-zinc-300">
+                  <p>
+                    1. <strong>Pubky Ring signs the requested permissions</strong> with your private key, proving you own this identity (you hold the key pair)
+                  </p>
+                  <p>
+                    2. <strong>The signed authorization is sent back to pubky.app</strong> over a HTTP relay
+                  </p>
+                  <p>
+                    3. <strong>pubky.app uses it</strong> to access your Homeserver on your behalf
+                  </p>
+                  <p className="mt-3">
+                    <a
+                      href="https://github.com/pubky/pubky-core/blob/main/docs/AUTH.md#flow"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-blue-400 underline hover:text-blue-300"
+                    >
+                      Detailed documentation
+                    </a>
+                  </p>
+                </div>
+              </div>
             </div>
           </ExplanationPanel>
         ) : (
