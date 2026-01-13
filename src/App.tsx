@@ -9,11 +9,12 @@ import { useState } from 'react';
 import { MainLayout, DiagramPanel, ExplanationPanel, ControlBar } from './components/layout';
 import { PubkyDiagram } from './components/diagram';
 import { PostPreview } from './components/post';
-import { PubkyLogin } from './components/auth';
+import { PubkyLogin, type SessionInfo } from './components/auth';
 
 function App() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [sessionInfo, setSessionInfo] = useState<SessionInfo | null>(null);
   const totalSteps = 4;
 
   const handleNext = () => {
@@ -31,12 +32,15 @@ function App() {
   const handleReset = () => {
     setCurrentStep(0);
     setIsLoggedIn(false);
+    setSessionInfo(null);
   };
 
-  const handleLoginSuccess = (publicKey: string) => {
+  const handleLoginSuccess = (session: SessionInfo) => {
     console.log('✅ LOGIN SUCCESSFUL!');
-    console.log('Public Key:', publicKey);
-    console.log('User authenticated and ready to post');
+    console.log('Public Key:', session.publicKey);
+    console.log('Capabilities:', session.capabilities);
+    console.log('Full session info:', session);
+    setSessionInfo(session);
     setIsLoggedIn(true);
     // Auto-advance to next step after successful login
     handleNext();
@@ -108,7 +112,7 @@ function App() {
           >
             <PostPreview onPublish={handleNext} />
           </ExplanationPanel>
-        ) : (
+        ) : currentStep === 1 ? (
           <ExplanationPanel
             stepTitle="Log in to pubky.app"
             stepDescription="Scan the QR code with Pubky Ring to authenticate. Your identity will be used to publish the post to your homeserver."
@@ -130,6 +134,42 @@ function App() {
               onLoginSuccess={handleLoginSuccess}
               onLoginError={handleLoginError}
             />
+          </ExplanationPanel>
+        ) : currentStep === 2 ? (
+          <ExplanationPanel
+            stepTitle="Authentication Successful"
+            stepDescription="Here's what we received from Pubky Ring after your successful authentication."
+          >
+            <div className="space-y-4">
+              {sessionInfo && (
+                <div className="rounded-lg border border-green-800 bg-green-950/30 p-4">
+                  <h3 className="mb-3 text-sm font-semibold text-green-300">Session Information</h3>
+                  <div className="space-y-2">
+                    <div>
+                      <div className="text-xs font-medium text-zinc-400">Public Key</div>
+                      <div className="font-mono text-sm text-zinc-200 break-all">{sessionInfo.publicKey}</div>
+                    </div>
+                    <div>
+                      <div className="text-xs font-medium text-zinc-400">Capabilities</div>
+                      <div className="font-mono text-sm text-zinc-200">{sessionInfo.capabilities}</div>
+                    </div>
+                    <div>
+                      <div className="text-xs font-medium text-zinc-400">Raw Session Data</div>
+                      <pre className="mt-1 max-h-64 overflow-auto rounded bg-zinc-900 p-3 text-xs text-zinc-300">
+                        {JSON.stringify(sessionInfo.rawSessionInfo, null, 2)}
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </ExplanationPanel>
+        ) : (
+          <ExplanationPanel
+            stepTitle="Next Steps"
+            stepDescription="Continue with the post journey..."
+          >
+            <div className="text-zinc-400">More steps coming soon...</div>
           </ExplanationPanel>
         )
       }

@@ -1,1 +1,1 @@
-export { PubkyLogin } from './PubkyLogin';
+export { PubkyLogin, type SessionInfo } from './PubkyLogin';
