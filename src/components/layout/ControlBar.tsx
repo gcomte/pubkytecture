@@ -15,6 +15,7 @@ interface ControlBarProps {
   totalSteps: number;
   status: SimulationStatus;
   error?: Error;
+  disableNext?: boolean;
   onNext: () => void;
   onPrevious: () => void;
   onReset: () => void;
@@ -26,12 +27,13 @@ export function ControlBar({
   totalSteps,
   status,
   error,
+  disableNext = false,
   onNext,
   onPrevious,
   onReset,
   onRetry,
 }: ControlBarProps) {
-  const canGoNext = currentStep < totalSteps && status !== 'loading';
+  const canGoNext = currentStep < totalSteps && status !== 'loading' && !disableNext;
   const canGoPrevious = currentStep > 0 && status !== 'loading';
   const isComplete = currentStep >= totalSteps;
 
