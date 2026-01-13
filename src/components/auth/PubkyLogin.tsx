@@ -9,8 +9,14 @@ import { useEffect, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { Pubky, AuthFlowKind } from '@synonymdev/pubky';
 
+export interface SessionInfo {
+  publicKey: string;
+  capabilities: string;
+  [key: string]: unknown;
+}
+
 interface PubkyLoginProps {
-  onLoginSuccess?: (publicKey: string) => void;
+  onLoginSuccess?: (sessionInfo: SessionInfo) => void;
   onLoginError?: (error: Error) => void;
 }
 
@@ -70,8 +76,15 @@ export function PubkyLogin({ onLoginSuccess, onLoginError }: PubkyLoginProps) {
         console.log('Public Key:', publicKeyStr);
         console.log('Session info:', session.info);
 
+        // Prepare session info to pass to parent
+        const sessionInfo: SessionInfo = {
+          publicKey: publicKeyStr,
+          capabilities: CAPABILITIES,
+          rawSessionInfo: session.info,
+        };
+
         setStatus('success');
-        onLoginSuccess?.(publicKeyStr);
+        onLoginSuccess?.(sessionInfo);
       } catch (error) {
         console.error('❌ [ERROR] Auth request failed at step:', status);
         console.error('Error object:', error);
