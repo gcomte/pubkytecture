@@ -41,9 +41,10 @@ import { GroupNode, type GroupNodeData } from './nodes/GroupNode';
 interface PubkyDiagramProps {
   activeNodeId?: string;
   highlightedNodeIds?: string[];
+  highlightedEdgeIds?: string[];
 }
 
-export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDiagramProps) {
+export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [], highlightedEdgeIds = [] }: PubkyDiagramProps) {
   // Define custom node types
   const nodeTypes: NodeTypes = useMemo(
     () => ({
@@ -267,8 +268,11 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         target: 'pubky-app',
         sourceHandle: 'right-source',
         targetHandle: 'left',
-        animated: false,
-        style: { stroke: '#8b5cf6' },
+        animated: highlightedEdgeIds.includes('e-ring-pubky'),
+        style: highlightedEdgeIds.includes('e-ring-pubky')
+          ? { stroke: '#3b82f6', strokeWidth: 2 }
+          : undefined,
+        className: highlightedEdgeIds.includes('e-ring-pubky') ? 'animate-pulse-edge' : undefined,
         label: 'Auth',
         labelStyle: { fill: '#e5e7eb', fontSize: 12, fontWeight: 600 },
         labelBgStyle: { fill: '#18181b', fillOpacity: 1 },
@@ -317,7 +321,7 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         zIndex: 1000,
       },
     ],
-    []
+    [highlightedEdgeIds]
   );
 
   const onNodesChange = useCallback(() => {

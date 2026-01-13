@@ -24,7 +24,7 @@ export const ArchitectureNode = memo(({ data }: NodeProps) => {
       className={`
         rounded-lg border-2 bg-zinc-900 px-4 py-3 shadow-lg transition-all
         ${isActive ? 'border-blue-500 shadow-blue-500/50 animate-pulse-active' : ''}
-        ${isHighlighted ? 'border-purple-500 shadow-purple-500/30' : ''}
+        ${isHighlighted ? 'border-blue-500 shadow-blue-500/50 animate-pulse-active' : ''}
         ${!isActive && !isHighlighted ? 'border-zinc-700' : ''}
       `}
     >
