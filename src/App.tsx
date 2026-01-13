@@ -55,17 +55,31 @@ function App() {
     });
   };
 
-  // Determine which node to highlight based on current step
-  const getActiveNodeId = () => {
+  // Determine which nodes to highlight based on current step
+  const getHighlightedNodeIds = () => {
     switch (currentStep) {
       case 0:
-        return undefined; // Overview - no specific node
+        return []; // Overview - no specific nodes
       case 1:
-        return 'pubky-app'; // Login step - highlight pubky.app
+        return ['pubky-app']; // Login step (Step 2 of 4) - highlight only pubky.app
       case 2:
-        return 'pubky-app'; // Auth success - keep highlighting pubky.app
+        return ['pubky-app', 'pubky-ring']; // Auth success (Step 3 of 4) - highlight both
       default:
-        return undefined;
+        return [];
+    }
+  };
+
+  // Determine which edges to highlight based on current step
+  const getHighlightedEdgeIds = () => {
+    switch (currentStep) {
+      case 0:
+        return []; // Overview - no specific edges
+      case 1:
+        return []; // Login step (Step 2 of 4) - NO edge highlighting
+      case 2:
+        return ['e-ring-pubky']; // Auth success (Step 3 of 4) - highlight Auth connection
+      default:
+        return [];
     }
   };
 
@@ -73,7 +87,10 @@ function App() {
     <MainLayout
       diagramPanel={
         <DiagramPanel>
-          <PubkyDiagram activeNodeId={getActiveNodeId()} />
+          <PubkyDiagram
+            highlightedNodeIds={getHighlightedNodeIds()}
+            highlightedEdgeIds={getHighlightedEdgeIds()}
+          />
         </DiagramPanel>
       }
       explanationPanel={
@@ -163,16 +180,43 @@ function App() {
               {/* Explanation of auth flow */}
               <div className="rounded-lg border border-blue-700 bg-blue-950/30 p-4">
                 <h3 className="mb-2 text-sm font-semibold text-blue-300">Auth Flow</h3>
-                <div className="space-y-2 text-sm text-zinc-300">
-                  <p>
-                    1. <strong>Pubky Ring signs the requested permissions</strong> with your private key, proving you own this identity (you hold the key pair)
-                  </p>
-                  <p>
-                    2. <strong>The signed authorization is sent back to pubky.app</strong> over a HTTP relay
-                  </p>
-                  <p>
-                    3. <strong>pubky.app uses it</strong> to access your Homeserver on your behalf
-                  </p>
+                <div className="space-y-3 text-sm text-zinc-300">
+                  {/* Step 1: Pubky Ring signs */}
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-900/50 border border-purple-500 flex items-center justify-center text-lg">
+                      🔑
+                    </div>
+                    <div className="flex-1">
+                      <p>
+                        <strong className="text-purple-300">Pubky Ring signs the requested permissions</strong> with your private key, proving you own this identity (you hold the key pair)
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Step 2: Signed authorization sent */}
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-900/50 border border-blue-500 flex items-center justify-center text-lg">
+                      📤
+                    </div>
+                    <div className="flex-1">
+                      <p>
+                        <strong>The signed authorization is sent back to pubky.app</strong> over a HTTP relay
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Step 3: pubky.app uses it */}
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-900/50 border border-green-500 flex items-center justify-center text-lg">
+                      ✅
+                    </div>
+                    <div className="flex-1">
+                      <p>
+                        <strong>pubky.app uses it</strong> to access your Homeserver on your behalf
+                      </p>
+                    </div>
+                  </div>
+
                   <p className="mt-3">
                     <a
                       href="https://github.com/pubky/pubky-core/blob/main/docs/AUTH.md#flow"

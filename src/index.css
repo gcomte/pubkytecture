@@ -21,15 +21,31 @@ body {
   0%, 100% {
     opacity: 1;
     transform: scale(1);
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
   }
   50% {
-    opacity: 0.9;
-    transform: scale(1.1);
-    box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+    opacity: 0.95;
+    transform: scale(1.05);
+    box-shadow: 0 0 45px rgba(59, 130, 246, 0.8);
   }
 }
 
 .animate-pulse-active {
-  animation: pulse-active 1.5s ease-in-out infinite;
+  animation: pulse-active 1.7s ease-in-out infinite;
+}
+
+/* Pulsating animation for active diagram edges */
+@keyframes pulse-edge {
+  0%, 100% {
+    stroke-width: 2;
+    stroke-opacity: 1;
+  }
+  50% {
+    stroke-width: 3;
+    stroke-opacity: 0.8;
+  }
+}
+
+.animate-pulse-edge {
+  animation: pulse-edge 1.5s ease-in-out infinite;
 }
