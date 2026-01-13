@@ -13,6 +13,7 @@ import { PubkyLogin } from './components/auth';
 
 function App() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const totalSteps = 4;
 
   const handleNext = () => {
@@ -29,12 +30,14 @@ function App() {
 
   const handleReset = () => {
     setCurrentStep(0);
+    setIsLoggedIn(false);
   };
 
   const handleLoginSuccess = (publicKey: string) => {
     console.log('✅ LOGIN SUCCESSFUL!');
     console.log('Public Key:', publicKey);
     console.log('User authenticated and ready to post');
+    setIsLoggedIn(true);
     // Auto-advance to next step after successful login
     handleNext();
   };
@@ -135,6 +138,7 @@ function App() {
           currentStep={currentStep}
           totalSteps={totalSteps}
           status="idle"
+          disableNext={currentStep === 1 && !isLoggedIn}
           onNext={handleNext}
           onPrevious={handlePrevious}
           onReset={handleReset}
