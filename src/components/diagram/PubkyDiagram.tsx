@@ -9,17 +9,14 @@
  * 3. Homeserver → Nexus (async indexing)
  * 4. Nexus → pubky.app (read index to display post)
  *
- * Note: eventky.app follows the same pattern (connects to PKDNS and Homeserver)
- * but connections are not shown to keep the diagram tidy.
- *
  * Architecture Components:
  * - Mainline DHT: Distributed Hash Table for IP resolution
  * - PKDNS: Pubky DNS resolver
  * - Homeserver: User's data storage
  * - Nexus: Pubky content indexer
- * - Eventky indexer: Events content indexer
- * - Browser Apps: pubky.app and eventky.app (run locally in browser)
- * - web servers: Serve app code only, no user data
+ * - Pubky Ring: Mobile authenticator app (holds private keys)
+ * - Browser Apps: pubky.app and other apps (run locally in browser)
+ * - Web servers: Serve app code only, no user data
  *
  * Key principle: web servers only serve app code.
  * All user data flows between browser apps and Pubky infrastructure.
@@ -73,11 +70,11 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         } as ArchitectureNodeData,
       },
 
-      // PKDNS - Below DHT, far left
+      // PKDNS - Below DHT, more to the right
       {
         id: 'pkdns',
         type: 'architecture',
-        position: { x: 150, y: 150 },
+        position: { x: 250, y: 150 },
         data: {
           label: 'PKDNS',
           description: 'Pubky DNS resolver',
@@ -87,11 +84,11 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         } as ArchitectureNodeData,
       },
 
-      // Homeserver - Center
+      // Homeserver - Right side
       {
         id: 'homeserver',
         type: 'architecture',
-        position: { x: 500, y: 270 },
+        position: { x: 600, y: 270 },
         data: {
           label: 'Homeserver',
           description: 'Your data storage',
@@ -101,11 +98,11 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         } as ArchitectureNodeData,
       },
 
-      // Nexus (Pubky Indexer) - Center-left, below homeserver
+      // Nexus (Pubky Indexer) - Center, below homeserver
       {
         id: 'nexus',
         type: 'architecture',
-        position: { x: 300, y: 400 },
+        position: { x: 400, y: 400 },
         data: {
           label: 'Nexus',
           description: 'Pubky content indexer',
@@ -115,27 +112,28 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         } as ArchitectureNodeData,
       },
 
-      // Eventky Indexer - Right side, below homeserver
+      // Pubky Ring - Left side, higher up so Auth label is clear
       {
-        id: 'eventky-indexer',
+        id: 'pubky-ring',
         type: 'architecture',
-        position: { x: 650, y: 400 },
+        position: { x: 50, y: 320 },
         data: {
-          label: 'Eventky Indexer',
-          description: 'Events content indexer',
-          icon: '📋',
-          isActive: activeNodeId === 'eventky-indexer',
-          isHighlighted: highlightedNodeIds.includes('eventky-indexer'),
+          label: 'Pubky Ring',
+          description: 'Mobile authenticator\n(holds your identity)',
+          icon: '🔑',
+          isActive: activeNodeId === 'pubky-ring',
+          isHighlighted: highlightedNodeIds.includes('pubky-ring'),
         } as ArchitectureNodeData,
+        style: { zIndex: 20 },
       },
 
       // Browser Apps Group - Background box
       {
         id: 'browser-apps',
         type: 'group',
-        position: { x: 100, y: 550 },
+        position: { x: 180, y: 550 },
         style: {
-          width: 800,
+          width: 720,
           height: 250,
         },
         data: {
@@ -150,7 +148,7 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
       {
         id: 'pubky-app',
         type: 'architecture',
-        position: { x: 170, y: 640 },
+        position: { x: 250, y: 640 },
         data: {
           label: 'pubky.app',
           description: 'Social application',
@@ -161,17 +159,17 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         style: { zIndex: 10 },
       },
 
-      // eventky.app - Positioned visually inside browser-apps group
+      // your-app - Generic placeholder - Positioned fully inside browser-apps group
       {
-        id: 'eventky-app',
+        id: 'your-app',
         type: 'architecture',
-        position: { x: 610, y: 640 },
+        position: { x: 620, y: 640 },
         data: {
-          label: 'eventky.app',
-          description: 'Events application\n(also connects to PKDNS\nand Homeserver, but\nsimplified to reduce noise)',
-          icon: '📅',
-          isActive: activeNodeId === 'eventky-app',
-          isHighlighted: highlightedNodeIds.includes('eventky-app'),
+          label: 'Any Pubky app',
+          description: '(connects to Ring and PKDNS\nlike pubky.app, omitted in\nmodel to reduce noise)',
+          icon: '📦',
+          isActive: activeNodeId === 'your-app',
+          isHighlighted: highlightedNodeIds.includes('your-app'),
         } as ArchitectureNodeData,
         style: { zIndex: 10 },
       },
@@ -180,7 +178,7 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
       {
         id: 'pubky-server',
         type: 'architecture',
-        position: { x: 200, y: 820 },
+        position: { x: 280, y: 820 },
         data: {
           label: 'pubky.app Web Server',
           description: 'Serves app code, no data',
@@ -191,17 +189,17 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         style: { zIndex: 10 },
       },
 
-      // eventky.app Web Server - Below browser apps box, right
+      // your-app Web Server - Below browser apps box, right
       {
-        id: 'eventky-server',
+        id: 'your-app-server',
         type: 'architecture',
-        position: { x: 640, y: 820 },
+        position: { x: 650, y: 820 },
         data: {
-          label: 'eventky.app Web Server',
+          label: 'Web Server',
           description: 'Serves app code, no data',
           icon: '🖥️',
-          isActive: activeNodeId === 'eventky-server',
-          isHighlighted: highlightedNodeIds.includes('eventky-server'),
+          isActive: activeNodeId === 'your-app-server',
+          isHighlighted: highlightedNodeIds.includes('your-app-server'),
         } as ArchitectureNodeData,
         style: { zIndex: 10 },
       },
@@ -212,13 +210,13 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
   // Define edges (connections between nodes)
   const initialEdges: Edge[] = useMemo(
     () => [
-      // pubky.app → PKDNS (lookup homeserver IP)
+      // PKDNS → pubky.app (lookup homeserver IP)
       {
-        id: 'e-pubky-pkdns',
-        source: 'pubky-app',
-        target: 'pkdns',
-        sourceHandle: 'top-source',
-        targetHandle: 'bottom',
+        id: 'e-pkdns-pubky',
+        source: 'pkdns',
+        target: 'pubky-app',
+        sourceHandle: 'bottom-source',
+        targetHandle: 'left',
         animated: false,
       },
 
@@ -247,7 +245,7 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         id: 'e-homeserver-nexus',
         source: 'homeserver',
         target: 'nexus',
-        sourceHandle: 'left-source',
+        sourceHandle: 'bottom-source',
         targetHandle: 'top',
         animated: false,
       },
@@ -262,23 +260,28 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         animated: false,
       },
 
-      // Homeserver → Eventky Indexer (async indexing)
+      // Pubky Ring → pubky.app (authentication)
       {
-        id: 'e-homeserver-eventky-indexer',
-        source: 'homeserver',
-        target: 'eventky-indexer',
-        sourceHandle: 'bottom-source',
-        targetHandle: 'top',
+        id: 'e-ring-pubky',
+        source: 'pubky-ring',
+        target: 'pubky-app',
+        sourceHandle: 'right-source',
+        targetHandle: 'left',
         animated: false,
+        style: { stroke: '#8b5cf6' },
+        label: 'Auth',
+        labelStyle: { fill: '#e5e7eb', fontSize: 12, fontWeight: 600 },
+        labelBgStyle: { fill: '#18181b', fillOpacity: 1 },
+        labelBgPadding: [8, 4] as [number, number],
       },
 
-      // Eventky Indexer → eventky.app (read index)
+      // your-app → Homeserver (publish/read data)
       {
-        id: 'e-eventky-indexer-app',
-        source: 'eventky-indexer',
-        target: 'eventky-app',
-        sourceHandle: 'bottom-source',
-        targetHandle: 'top',
+        id: 'e-yourapp-homeserver',
+        source: 'your-app',
+        target: 'homeserver',
+        sourceHandle: 'top-source',
+        targetHandle: 'bottom',
         animated: false,
       },
 
@@ -298,11 +301,11 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
         zIndex: 1000,
       },
 
-      // eventky.app Server → eventky.app (serves app code)
+      // your-app Server → your-app (serves app code)
       {
-        id: 'e-eventky-server-app',
-        source: 'eventky-server',
-        target: 'eventky-app',
+        id: 'e-yourapp-server-app',
+        source: 'your-app-server',
+        target: 'your-app',
         sourceHandle: 'top-source',
         targetHandle: 'bottom',
         animated: false,
@@ -333,6 +336,7 @@ export function PubkyDiagram({ activeNodeId, highlightedNodeIds = [] }: PubkyDia
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       fitView
+      fitViewOptions={{ padding: 0.2 }}
       className="bg-zinc-950"
       minZoom={0.5}
       maxZoom={1.5}
