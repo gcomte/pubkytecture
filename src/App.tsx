@@ -231,7 +231,7 @@ function App() {
                     </div>
                     <div className="flex-1">
                       <p>
-                        <strong>pubky.app uses it</strong> to access your Homeserver on your behalf
+                        <strong>pubky.app uses it</strong> to read/write to <code className="bg-zinc-800 px-1 rounded text-sm">/pub/pubky.app</code> on your Homeserver (capability)
                       </p>
                     </div>
                   </div>
