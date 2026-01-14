@@ -5,7 +5,8 @@
  * Demonstrates the three-panel layout with placeholder content.
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import posthog from 'posthog-js';
 import { MainLayout, DiagramPanel, ExplanationPanel, ControlBar } from './components/layout';
 import { PubkyDiagram } from './components/diagram';
 import { PostPreview } from './components/post';
@@ -16,6 +17,14 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [sessionInfo, setSessionInfo] = useState<SessionInfo | null>(null);
   const totalSteps = 4;
+
+  // Track step changes
+  useEffect(() => {
+    posthog.capture('step_viewed', {
+      step: currentStep,
+      step_name: ['overview', 'login', 'auth_success', 'next_steps'][currentStep],
+    });
+  }, [currentStep]);
 
   const handleNext = () => {
     if (currentStep < totalSteps - 1) {
@@ -30,6 +39,9 @@ function App() {
   };
 
   const handleReset = () => {
+    posthog.capture('flow_reset', {
+      from_step: currentStep,
+    });
     setCurrentStep(0);
     setIsLoggedIn(false);
     setSessionInfo(null);
@@ -40,6 +52,9 @@ function App() {
     console.log('Public Key:', session.publicKey);
     console.log('Capabilities:', session.capabilities);
     console.log('Full session info:', session);
+    posthog.capture('login_completed', {
+      capabilities: session.capabilities,
+    });
     setSessionInfo(session);
     setIsLoggedIn(true);
     // Auto-advance to next step after successful login
@@ -52,6 +67,10 @@ function App() {
       name: error.name,
       message: error.message,
       stack: error.stack
+    });
+    posthog.capture('login_failed', {
+      error_name: error.name,
+      error_message: error.message,
     });
   };
 
